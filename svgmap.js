@@ -7,6 +7,8 @@ import { getCenter } from "ol/extent";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 
+import mapurl from "./map/map_vector.svg";
+
 // Map views always need a projection.  Here we just want to map image
 // coordinates directly to map coordinates, so we create a projection that uses
 // the image extent in pixels.
@@ -21,7 +23,7 @@ const map = new Map({
   layers: [
     new ImageLayer({
       source: new Static({
-        url: "./map/map_vector.svg",
+        url: mapurl,
         projection: projection,
         imageExtent: extent,
       }),
