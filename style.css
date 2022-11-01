@@ -10,6 +10,22 @@ body {
 }
 
 #map {
-  height: 100vh;
+  height: 92vh;
   width: 100%;
+}
+
+.navbar {
+  height: 8vh;
+  background-color: rgb(32, 32, 32);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0488db;
+}
+
+.logo {
+  height: 68%;
+  margin-right: 12px;
 }
