@@ -22,7 +22,7 @@ const style = new Style({
 });
 
 const vectorSource = new VectorSource({
-  url: "./map/buildings.json",
+  url: "buildings.json",
   format: new GeoJSON(),
 });
 
