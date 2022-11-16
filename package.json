@@ -12,6 +12,8 @@
     "vite": "^3.2.0"
   },
   "dependencies": {
-    "ol": "^7.1.0"
+    "ol": "^7.1.0",
+    "ol-ext": "^4.0.3",
+    "ol-mapbox-style": "^9.2.0"
   }
 }

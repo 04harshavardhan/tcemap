@@ -1,0 +1,100 @@
+.ol-search {
+  top: 0.5em;
+  left: 2.5em;
+}
+
+.ol-search-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.ol-hidden {
+  display: none;
+}
+
+.ol-search-input {
+  width: 100%;
+}
+
+.ol-search-toggle {
+  display: inline;
+}
+
+.ol-search-autocomplete {
+  width: 240px;
+}
+
+.ol-search-autocomplete ul {
+  list-style-type: none;
+  padding: 0;
+  overflow-x: clip;
+  word-wrap: nowrap;
+}
+
+.ol-autocomplete-link button {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100% !important;
+  background-color: transparent !important;
+  text-align: left !important;
+  padding: 8px !important;
+}
+
+.ol-autocomplete-link button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 120px;
+}
+.ol-popup:after,
+.ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.ol-popup-content {
+  font-size: 12px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "x";
+}
+
+/* 
+.ol-search.ol-collapsed input,
+.ol-search.ol-collapsed .autocomplete {
+  width: 0px;
+  visibility: collapse;
+} */

@@ -1,9 +1,9 @@
 import Map from "ol/Map";
 import View from "ol/View";
-import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
 import { fromLonLat } from "ol/proj";
 import { transformExtent } from "ol/proj";
+
+import { apply } from "ol-mapbox-style";
 
 const map = new Map({
   view: new View({
@@ -15,10 +15,10 @@ const map = new Map({
       "EPSG:3857"
     ),
   }),
-  layers: [
-    new TileLayer({
-      source: new OSM(),
-    }),
-  ],
   target: "map",
 });
+
+const key = "DNUOQKVElTwz2D4TwG0V";
+const styleJson = `https://api.maptiler.com/maps/15fbb120-02b7-4fd2-ac02-00928b0ef7d5/style.json?key=${key}`;
+
+apply(map, styleJson);

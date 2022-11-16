@@ -2,17 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TCE map</title>
+    <title>TCE Map</title>
 
-    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/ol-extended.css" />
+    <link rel="stylesheet" href="node_modules/ol/ol.css" />
   </head>
   <body>
     <div class="navbar">
-      <img src="/location.png" alt="location tag" class="logo" />
-      TCE
+      <img src="/location.png" alt="Logo" class="logo" />
+      <span>TCE</span>
     </div>
-    <div id="map"></div>
-    <script type="module" src="/map.js"></script>
+    <div id="map" class="map"></div>
+    <div id="popup" class="ol-popup">
+      <btn href="#" id="popup-closer" class="ol-popup-closer"></btn>
+      <div id="popup-content" class="ol-popup-content"></div>
+    </div>
+    <script type="module" src="./src/script.js"></script>
   </body>
 </html>
