@@ -46,6 +46,16 @@
   color: white;
 }
 
+.ol-nav {
+  bottom: 2.5em;
+  right: 0.5em;
+}
+
+.ol-search span,
+.ol-nav span {
+  font-size: 18px;
+}
+
 .ol-popup {
   position: absolute;
   background-color: white;

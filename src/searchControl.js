@@ -6,7 +6,7 @@ class SearchControl extends Control {
    * @param {Object} [control_options] Control control_options.
    */
   constructor(control_options) {
-    const { source } = control_options;
+    const { source, select } = control_options;
 
     const element = document.createElement("div");
     element.id = "SearchBar";
@@ -38,6 +38,8 @@ class SearchControl extends Control {
       element: element,
     });
 
+    this.select = select;
+
     this.searchData = {};
 
     source.forEach((src) => {
@@ -54,6 +56,7 @@ class SearchControl extends Control {
     toggleBtn.addEventListener("click", () => {
       autoComplete.classList.toggle("ol-hidden");
       searchInput.classList.toggle("ol-hidden");
+      this.searchInput.focus();
     });
 
     searchInput.addEventListener("input", (e) => {
@@ -89,6 +92,13 @@ class SearchControl extends Control {
             view.fit(feature.getGeometry(), {
               padding: [40, 40, 40, 40],
               duration: 500,
+            });
+            this.select.getFeatures().clear();
+            this.select.getFeatures().push(feature);
+            this.select.dispatchEvent({
+              type: "select",
+              selected: [feature],
+              deselected: [],
             });
           });
         }

@@ -4,19 +4,25 @@ import Select from "ol/interaction/Select";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import Overlay from "ol/Overlay";
+import { getCenter } from "ol/extent";
 import View from "ol/View";
 import { Fill, Stroke, Style, Text } from "ol/style";
 import { click } from "ol/events/condition";
 import { fromLonLat, transformExtent, toLonLat } from "ol/proj";
 import { defaults as defaultControls } from "ol/control";
+import CircleStyle from "ol/style/Circle";
+import Geolocation from "ol/Geolocation";
 
 import SearchControl from "./searchControl";
+import NavControl from "./navControl";
+import PositionTracker from "./positionFeature";
 
 import { apply } from "ol-mapbox-style";
+import { Feature } from "ol";
 
 const style = new Style({
   fill: new Fill({
-    color: "#eeeeee",
+    color: "#C3C3D2",
   }),
   text: new Text({}),
 });
@@ -24,6 +30,16 @@ const style = new Style({
 const vectorSource = new VectorSource({
   url: "buildings.json",
   format: new GeoJSON(),
+});
+
+const view = new View({
+  center: fromLonLat([78.0821981, 9.8825961]),
+  zoom: 17,
+  extent: transformExtent(
+    [78.076, 9.877, 78.086, 9.886],
+    "EPSG:4326",
+    "EPSG:3857"
+  ),
 });
 
 const vectorLayer = new VectorLayer({
@@ -37,6 +53,21 @@ const vectorLayer = new VectorLayer({
     return style;
   },
 });
+
+const navSource = new VectorSource();
+
+const navigationLayer = new VectorLayer({
+  source: navSource,
+  // style: function (feature) {
+  //   const color = feature.get("fill-color") || "#C3C3D2";
+  //   const label = feature.get("name");
+  //   style.getText().setText(label);
+  //   style.getFill().setColor(color);
+  //   return style;
+  // },
+});
+
+const positionCircle = new PositionTracker({ view });
 
 const container = document.getElementById("popup");
 const content = document.getElementById("popup-content");
@@ -57,24 +88,11 @@ closer.onclick = function () {
   return false;
 };
 
-const searchBar = new SearchControl({
-  source: [vectorSource],
-});
-
 const map = new Map({
-  controls: defaultControls().extend([searchBar]),
-  layers: [vectorLayer],
+  layers: [vectorLayer, positionCircle],
   overlays: [popupOverlay],
   target: "map",
-  view: new View({
-    center: fromLonLat([78.0821981, 9.8825961]),
-    zoom: 17,
-    extent: transformExtent(
-      [78.076, 9.877, 78.086, 9.886],
-      "EPSG:4326",
-      "EPSG:3857"
-    ),
-  }),
+  view,
 });
 
 const key = "DNUOQKVElTwz2D4TwG0V";
@@ -84,13 +102,11 @@ const styleJson = `https://api.maptiler.com/maps/15fbb120-02b7-4fd2-ac02-00928b0
 // apply maptiler style
 apply(map, styleJson);
 
+map.addLayer(navigationLayer);
+
 const selected = new Style({
   fill: new Fill({
-    color: "#202020",
-  }),
-  stroke: new Stroke({
-    color: "rgba(255, 255, 255, 0.7)",
-    width: 2,
+    color: "#C3C3D2",
   }),
 });
 
@@ -107,13 +123,23 @@ const selectClick = new Select({
 });
 
 map.addInteraction(selectClick);
-selectClick.on("select", function (e) {
+selectClick.on("select", function (e = {}) {
   const feature = e.target.getFeatures().item(0);
 
   if (!feature) {
     popupOverlay.setPosition(undefined);
     closer.blur();
     return;
+  }
+
+  const event = e.mapBrowserEvent;
+  let coordinate;
+
+  if (!event) {
+    const extent = feature.getGeometry().getExtent();
+    coordinate = getCenter(extent);
+  } else {
+    coordinate = event.coordinate;
   }
 
   const location = feature.get("name");
@@ -123,8 +149,30 @@ selectClick.on("select", function (e) {
     closer.blur();
     return;
   }
-  const coordinate = e.mapBrowserEvent.coordinate;
 
   content.innerHTML = `<p>${location}</p>`;
   popupOverlay.setPosition(coordinate);
+  selectClick.coordinate = coordinate;
 });
+
+const searchBar = new SearchControl({
+  source: [vectorSource],
+  select: selectClick,
+});
+
+map.addControl(searchBar);
+
+// const navigation = new NavControl({
+//   position: positionCircle,
+//   select: selectClick,
+//   add: (route) => {
+//     // const feature = new Feature(route);
+//     // console.log(feature);
+//     vectorSource.addFeatures(route);
+//     // navSource.addFeature(new Feature(new Circle([5e6, 7e6], 1e6)));
+
+//     // console.log(navSource.getFeatures());
+//   },
+// });
+
+// map.addControl(navigation);

@@ -14,6 +14,7 @@
   "dependencies": {
     "ol": "^7.1.0",
     "ol-ext": "^4.0.3",
-    "ol-mapbox-style": "^9.2.0"
+    "ol-mapbox-style": "^9.2.0",
+    "openrouteservice-js": "^0.2.0"
   }
 }
