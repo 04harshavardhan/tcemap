@@ -37,7 +37,7 @@ const view = new View({
   center: fromLonLat([78.0821981, 9.8825961]),
   zoom: 17,
   extent: transformExtent(
-    [78.076, 9.877, 78.086, 9.886],
+    [78.076, 9.876, 78.086, 9.887],
     "EPSG:4326",
     "EPSG:3857"
   ),
