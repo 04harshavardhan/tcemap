@@ -93,13 +93,15 @@
   font-size: 12px;
 }
 .ol-popup-closer {
+  cursor: pointer;
   text-decoration: none;
   position: absolute;
   top: 2px;
   right: 8px;
 }
-.ol-popup-closer:after {
-  content: "x";
+
+.ol-popup-closer span {
+  font-size: 18px;
 }
 
 /* 

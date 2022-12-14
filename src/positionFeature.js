@@ -22,6 +22,7 @@ class PositionTracker extends VectorLayer {
     });
 
     const positionMark = new Feature();
+    positionMark.set("fill-color", "#3399CC");
     positionMark.setStyle(
       new Style({
         image: new CircleStyle({
@@ -43,6 +44,7 @@ class PositionTracker extends VectorLayer {
     });
 
     const accuracyMark = new Feature();
+    accuracyMark.set("fill-color", "#3399CC");
 
     geolocation.on("change:accuracyGeometry", function () {
       const accuracy = geolocation.getAccuracy();

@@ -19,6 +19,7 @@ import PositionTracker from "./positionFeature";
 
 import { apply } from "ol-mapbox-style";
 import { Feature } from "ol";
+import LineString from "ol/geom/LineString";
 
 const style = new Style({
   fill: new Fill({
@@ -57,14 +58,14 @@ const vectorLayer = new VectorLayer({
 const navSource = new VectorSource();
 
 const navigationLayer = new VectorLayer({
+  zIndex: 32,
   source: navSource,
-  // style: function (feature) {
-  //   const color = feature.get("fill-color") || "#C3C3D2";
-  //   const label = feature.get("name");
-  //   style.getText().setText(label);
-  //   style.getFill().setColor(color);
-  //   return style;
-  // },
+  style: new Style({
+    stroke: new Stroke({
+      width: 6,
+      color: "#827de8",
+    }),
+  }),
 });
 
 const positionCircle = new PositionTracker({ view });
@@ -89,7 +90,7 @@ closer.onclick = function () {
 };
 
 const map = new Map({
-  layers: [vectorLayer, positionCircle],
+  layers: [vectorLayer, positionCircle, navigationLayer],
   overlays: [popupOverlay],
   target: "map",
   view,
@@ -101,8 +102,6 @@ const styleJson = `https://api.maptiler.com/maps/15fbb120-02b7-4fd2-ac02-00928b0
 
 // apply maptiler style
 apply(map, styleJson);
-
-map.addLayer(navigationLayer);
 
 const selected = new Style({
   fill: new Fill({
@@ -162,17 +161,25 @@ const searchBar = new SearchControl({
 
 map.addControl(searchBar);
 
-// const navigation = new NavControl({
-//   position: positionCircle,
-//   select: selectClick,
-//   add: (route) => {
-//     // const feature = new Feature(route);
-//     // console.log(feature);
-//     vectorSource.addFeatures(route);
-//     // navSource.addFeature(new Feature(new Circle([5e6, 7e6], 1e6)));
+const navigation = new NavControl({
+  position: positionCircle,
+  select: selectClick,
+  add: (route) => {
+    // const feature = new Feature(route);
+    console.log(route);
+    const feature = new Feature({
+      geometry: new LineString([
+        [78.080383, 9.883503],
+        [78.08214, 9.88318],
+      ]).transform("EPSG:4326", "EPSG:3857"),
+    });
 
-//     // console.log(navSource.getFeatures());
-//   },
-// });
+    // navSource.clear();
+    navSource.addFeatures([route]);
+  },
+  remove: () => {
+    navSource.clear();
+  },
+});
 
-// map.addControl(navigation);
+map.addControl(navigation);
