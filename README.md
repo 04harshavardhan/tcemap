@@ -1,5 +1,5 @@
 # TCE map
-The map project helps navigating the campus with an easy-to-use map. You can explore locations, find specific places using the search bar, and plan efficient routes. Powered by the Leaflet mapping library and Mapbox Geocoding API, it's a user-friendly tool for students, faculty, and visitors to navigate the college campus effortlessly.
+A map of the college campus buit with openlayers Javascript library.
 
 # Features
 Interactive Map:
@@ -10,3 +10,5 @@ Users can search for specific places on the campus, such as buildings, classroom
 
 Route Finding:
 The project includes a route-finding feature that allows users to plan the most efficient paths between two or more points on the campus.
+
+Live demo: https://tcemap.vercel.app/
